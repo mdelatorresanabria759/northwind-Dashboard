@@ -1,0 +1,1276 @@
+{
+  "categories": {
+    "rowCount": 8,
+    "columns": [
+      "categoryid",
+      "categoryname",
+      "description",
+      "picture"
+    ],
+    "colAnalysis": {
+      "categoryid": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 8,
+        "samples": [
+          1,
+          2,
+          3
+        ]
+      },
+      "categoryname": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 8,
+        "samples": [
+          "Beverages",
+          "Condiments",
+          "Confections"
+        ]
+      },
+      "description": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 8,
+        "samples": [
+          "Soft drinks, coffees, teas, beers, and ales",
+          "Sweet and savory sauces, relishes, spreads, and seasonings",
+          "Desserts, candies, and sweet breads"
+        ]
+      },
+      "picture": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 1,
+        "samples": [
+          "\\x",
+          "\\x",
+          "\\x"
+        ]
+      }
+    }
+  },
+  "customers": {
+    "rowCount": 91,
+    "columns": [
+      "customerid",
+      "companyname",
+      "contactname",
+      "contacttitle",
+      "address",
+      "city",
+      "region",
+      "postalcode",
+      "country",
+      "phone",
+      "fax"
+    ],
+    "colAnalysis": {
+      "customerid": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 91,
+        "samples": [
+          "ALFKI",
+          "ANATR",
+          "ANTON"
+        ]
+      },
+      "companyname": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 91,
+        "samples": [
+          "Alfreds Futterkiste",
+          "Ana Trujillo Emparedados y helados",
+          "Antonio Moreno Taquería"
+        ]
+      },
+      "contactname": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 91,
+        "samples": [
+          "Maria Anders",
+          "Ana Trujillo",
+          "Antonio Moreno"
+        ]
+      },
+      "contacttitle": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 12,
+        "samples": [
+          "Sales Representative",
+          "Owner",
+          "Owner"
+        ]
+      },
+      "address": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 91,
+        "samples": [
+          "Obere Str. 57",
+          "Avda. de la Constitución 2222",
+          "Mataderos  2312"
+        ]
+      },
+      "city": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 69,
+        "samples": [
+          "Berlin",
+          "México D.F.",
+          "México D.F."
+        ]
+      },
+      "region": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 60,
+        "uniqueCount": 19,
+        "samples": [
+          "BC",
+          "SP",
+          "SP"
+        ]
+      },
+      "postalcode": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 1,
+        "uniqueCount": 87,
+        "samples": [
+          "12209",
+          "05021",
+          "05023"
+        ]
+      },
+      "country": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 21,
+        "samples": [
+          "Germany",
+          "Mexico",
+          "Mexico"
+        ]
+      },
+      "phone": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 91,
+        "samples": [
+          "030-0074321",
+          "(5) 555-4729",
+          "(5) 555-3932"
+        ]
+      },
+      "fax": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 22,
+        "uniqueCount": 70,
+        "samples": [
+          "030-0076545",
+          "(5) 555-3745",
+          "(171) 555-6750"
+        ]
+      }
+    }
+  },
+  "employees": {
+    "rowCount": 9,
+    "columns": [
+      "employeeid",
+      "lastname",
+      "firstname",
+      "title",
+      "titleofcourtesy",
+      "birthdate",
+      "hiredate",
+      "address",
+      "city",
+      "region",
+      "postalcode",
+      "country",
+      "homephone",
+      "extension",
+      "photo",
+      "notes",
+      "reportsto",
+      "photopath"
+    ],
+    "colAnalysis": {
+      "employeeid": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 9,
+        "samples": [
+          2,
+          1,
+          3
+        ]
+      },
+      "lastname": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 9,
+        "samples": [
+          "Fuller",
+          "Davolio",
+          "Leverling"
+        ]
+      },
+      "firstname": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 9,
+        "samples": [
+          "Andrew",
+          "Nancy",
+          "Janet"
+        ]
+      },
+      "title": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 4,
+        "samples": [
+          "Vice President, Sales",
+          "Sales Representative",
+          "Sales Representative"
+        ]
+      },
+      "titleofcourtesy": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 4,
+        "samples": [
+          "Dr.",
+          "Ms.",
+          "Ms."
+        ]
+      },
+      "birthdate": {
+        "types": [
+          "object (Date)"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 9,
+        "samples": [
+          "1952-02-19T05:00:16.000Z",
+          "1948-12-08T05:00:16.000Z",
+          "1963-08-30T05:00:16.000Z"
+        ]
+      },
+      "hiredate": {
+        "types": [
+          "object (Date)"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 9,
+        "samples": [
+          "1992-08-14T04:00:16.000Z",
+          "1992-05-01T05:00:16.000Z",
+          "1992-04-01T05:00:16.000Z"
+        ]
+      },
+      "address": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 9,
+        "samples": [
+          "908 W. Capital Way",
+          "507 - 20th Ave. E.\\nApt. 2A",
+          "722 Moss Bay Blvd."
+        ]
+      },
+      "city": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 5,
+        "samples": [
+          "Tacoma",
+          "Seattle",
+          "Kirkland"
+        ]
+      },
+      "region": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 4,
+        "uniqueCount": 2,
+        "samples": [
+          "WA",
+          "WA",
+          "WA"
+        ]
+      },
+      "postalcode": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 9,
+        "samples": [
+          "98401",
+          "98122",
+          "98033"
+        ]
+      },
+      "country": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 2,
+        "samples": [
+          "USA",
+          "USA",
+          "USA"
+        ]
+      },
+      "homephone": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 9,
+        "samples": [
+          "(206) 555-9482",
+          "(206) 555-9857",
+          "(206) 555-3412"
+        ]
+      },
+      "extension": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 9,
+        "samples": [
+          "3457",
+          "5467",
+          "3355"
+        ]
+      },
+      "photo": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 1,
+        "samples": [
+          "\\x",
+          "\\x",
+          "\\x"
+        ]
+      },
+      "notes": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 9,
+        "samples": [
+          "Andrew received his BTS commercial in 1974 and a Ph.D. in international marketing from the University of Dallas in 1981.  He is fluent in French and Italian and reads German.  He joined the company as a sales representative, was promoted to sales manager in January 1992 and to vice president of sales in March 1993.  Andrew is a member of the Sales Management Roundtable, the Seattle Chamber of Commerce, and the Pacific Rim Importers Association.",
+          "Education includes a BA in psychology from Colorado State University in 1970.  She also completed The Art of the Cold Call.  Nancy is a member of Toastmasters International.",
+          "Janet has a BS degree in chemistry from Boston College (1984).  She has also completed a certificate program in food retailing management.  Janet was hired as a sales associate in 1991 and promoted to sales representative in February 1992."
+        ]
+      },
+      "reportsto": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 1,
+        "uniqueCount": 3,
+        "samples": [
+          2,
+          2,
+          2
+        ]
+      },
+      "photopath": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 5,
+        "samples": [
+          "http://accweb/emmployees/fuller.bmp",
+          "http://accweb/emmployees/davolio.bmp",
+          "http://accweb/emmployees/leverling.bmp"
+        ]
+      }
+    }
+  },
+  "employeeterritories": {
+    "rowCount": 49,
+    "columns": [
+      "employeeid",
+      "territoryid"
+    ],
+    "colAnalysis": {
+      "employeeid": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 9,
+        "samples": [
+          1,
+          1,
+          2
+        ]
+      },
+      "territoryid": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 49,
+        "samples": [
+          "06897",
+          "19713",
+          "01581"
+        ]
+      }
+    }
+  },
+  "order_details": {
+    "rowCount": 2155,
+    "columns": [
+      "orderid",
+      "productid",
+      "unitprice",
+      "quantity",
+      "discount"
+    ],
+    "colAnalysis": {
+      "orderid": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 830,
+        "samples": [
+          10248,
+          10248,
+          10248
+        ]
+      },
+      "productid": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 77,
+        "samples": [
+          11,
+          42,
+          72
+        ]
+      },
+      "unitprice": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 116,
+        "samples": [
+          14,
+          9.8,
+          34.8
+        ]
+      },
+      "quantity": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 55,
+        "samples": [
+          12,
+          10,
+          5
+        ]
+      },
+      "discount": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 11,
+        "samples": [
+          0,
+          0,
+          0
+        ]
+      }
+    }
+  },
+  "orders": {
+    "rowCount": 830,
+    "columns": [
+      "orderid",
+      "customerid",
+      "employeeid",
+      "orderdate",
+      "requireddate",
+      "shippeddate",
+      "shipvia",
+      "freight",
+      "shipname",
+      "shipaddress",
+      "shipcity",
+      "shipregion",
+      "shippostalcode",
+      "shipcountry"
+    ],
+    "colAnalysis": {
+      "orderid": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 830,
+        "samples": [
+          10248,
+          10249,
+          10250
+        ]
+      },
+      "customerid": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 89,
+        "samples": [
+          "VINET",
+          "TOMSP",
+          "HANAR"
+        ]
+      },
+      "employeeid": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 9,
+        "samples": [
+          5,
+          6,
+          4
+        ]
+      },
+      "orderdate": {
+        "types": [
+          "object (Date)"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 830,
+        "samples": [
+          "1996-07-04T05:00:16.000Z",
+          "1996-07-05T05:00:16.000Z",
+          "1996-07-08T05:00:16.000Z"
+        ]
+      },
+      "requireddate": {
+        "types": [
+          "object (Date)"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 830,
+        "samples": [
+          "1996-08-01T05:00:16.000Z",
+          "1996-08-16T05:00:16.000Z",
+          "1996-08-05T05:00:16.000Z"
+        ]
+      },
+      "shippeddate": {
+        "types": [
+          "object (Date)"
+        ],
+        "nullCount": 21,
+        "uniqueCount": 810,
+        "samples": [
+          "1996-07-16T05:00:16.000Z",
+          "1996-07-10T05:00:16.000Z",
+          "1996-07-12T05:00:16.000Z"
+        ]
+      },
+      "shipvia": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 3,
+        "samples": [
+          3,
+          1,
+          2
+        ]
+      },
+      "freight": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 799,
+        "samples": [
+          32.38,
+          11.61,
+          65.83
+        ]
+      },
+      "shipname": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 90,
+        "samples": [
+          "Vins et alcools Chevalier",
+          "Toms Spezialitäten",
+          "Hanari Carnes"
+        ]
+      },
+      "shipaddress": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 89,
+        "samples": [
+          "59 rue de l'Abbaye",
+          "Luisenstr. 48",
+          "Rua do Paço, 67"
+        ]
+      },
+      "shipcity": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 70,
+        "samples": [
+          "Reims",
+          "Münster",
+          "Rio de Janeiro"
+        ]
+      },
+      "shipregion": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 507,
+        "uniqueCount": 20,
+        "samples": [
+          "RJ",
+          "RJ",
+          "SP"
+        ]
+      },
+      "shippostalcode": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 19,
+        "uniqueCount": 85,
+        "samples": [
+          "51100",
+          "44087",
+          "05454-876"
+        ]
+      },
+      "shipcountry": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 21,
+        "samples": [
+          "France",
+          "Germany",
+          "Brazil"
+        ]
+      }
+    }
+  },
+  "products": {
+    "rowCount": 77,
+    "columns": [
+      "productid",
+      "productname",
+      "supplierid",
+      "categoryid",
+      "quantityperunit",
+      "unitprice",
+      "unitsinstock",
+      "unitsonorder",
+      "reorderlevel",
+      "discontinued"
+    ],
+    "colAnalysis": {
+      "productid": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 77,
+        "samples": [
+          1,
+          2,
+          3
+        ]
+      },
+      "productname": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 77,
+        "samples": [
+          "Chai",
+          "Chang",
+          "Aniseed Syrup"
+        ]
+      },
+      "supplierid": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 29,
+        "samples": [
+          8,
+          1,
+          1
+        ]
+      },
+      "categoryid": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 8,
+        "samples": [
+          1,
+          1,
+          2
+        ]
+      },
+      "quantityperunit": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 70,
+        "samples": [
+          "10 boxes x 30 bags",
+          "24 - 12 oz bottles",
+          "12 - 550 ml bottles"
+        ]
+      },
+      "unitprice": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 61,
+        "samples": [
+          18,
+          19,
+          10
+        ]
+      },
+      "unitsinstock": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 51,
+        "samples": [
+          39,
+          17,
+          13
+        ]
+      },
+      "unitsonorder": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 10,
+        "samples": [
+          0,
+          40,
+          70
+        ]
+      },
+      "reorderlevel": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 7,
+        "samples": [
+          10,
+          25,
+          25
+        ]
+      },
+      "discontinued": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 2,
+        "samples": [
+          1,
+          1,
+          0
+        ]
+      }
+    }
+  },
+  "region": {
+    "rowCount": 4,
+    "columns": [
+      "regionid",
+      "regiondescription"
+    ],
+    "colAnalysis": {
+      "regionid": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 4,
+        "samples": [
+          1,
+          2,
+          3
+        ]
+      },
+      "regiondescription": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 4,
+        "samples": [
+          "Eastern",
+          "Western",
+          "Northern"
+        ]
+      }
+    }
+  },
+  "shippers": {
+    "rowCount": 6,
+    "columns": [
+      "shipperid",
+      "companyname",
+      "phone"
+    ],
+    "colAnalysis": {
+      "shipperid": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 6,
+        "samples": [
+          1,
+          2,
+          3
+        ]
+      },
+      "companyname": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 6,
+        "samples": [
+          "Speedy Express",
+          "United Package",
+          "Federal Shipping"
+        ]
+      },
+      "phone": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 6,
+        "samples": [
+          "(503) 555-9831",
+          "(503) 555-3199",
+          "(503) 555-9931"
+        ]
+      }
+    }
+  },
+  "shippers_tmp": {
+    "rowCount": 6,
+    "columns": [
+      "ShipperID",
+      "CompanyName",
+      "Phone"
+    ],
+    "colAnalysis": {
+      "ShipperID": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 6,
+        "samples": [
+          1,
+          2,
+          3
+        ]
+      },
+      "CompanyName": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 6,
+        "samples": [
+          "Speedy Express",
+          "United Package",
+          "Federal Shipping"
+        ]
+      },
+      "Phone": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 6,
+        "samples": [
+          "(503) 555-9831",
+          "(503) 555-3199",
+          "(503) 555-9931"
+        ]
+      }
+    }
+  },
+  "suppliers": {
+    "rowCount": 29,
+    "columns": [
+      "supplierid",
+      "companyname",
+      "contactname",
+      "contacttitle",
+      "address",
+      "city",
+      "region",
+      "postalcode",
+      "country",
+      "phone",
+      "fax",
+      "homepage"
+    ],
+    "colAnalysis": {
+      "supplierid": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 29,
+        "samples": [
+          1,
+          2,
+          3
+        ]
+      },
+      "companyname": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 29,
+        "samples": [
+          "Exotic Liquids",
+          "New Orleans Cajun Delights",
+          "Grandma Kelly's Homestead"
+        ]
+      },
+      "contactname": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 29,
+        "samples": [
+          "Charlotte Cooper",
+          "Shelley Burke",
+          "Regina Murphy"
+        ]
+      },
+      "contacttitle": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 15,
+        "samples": [
+          "Purchasing Manager",
+          "Order Administrator",
+          "Sales Representative"
+        ]
+      },
+      "address": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 29,
+        "samples": [
+          "49 Gilbert St.",
+          "P.O. Box 78934",
+          "707 Oxford Rd."
+        ]
+      },
+      "city": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 29,
+        "samples": [
+          "London",
+          "New Orleans",
+          "Ann Arbor"
+        ]
+      },
+      "region": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 20,
+        "uniqueCount": 9,
+        "samples": [
+          "LA",
+          "MI",
+          "Asturias"
+        ]
+      },
+      "postalcode": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 29,
+        "samples": [
+          "EC1 4SD",
+          "70117",
+          "48104"
+        ]
+      },
+      "country": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 16,
+        "samples": [
+          "UK",
+          "USA",
+          "USA"
+        ]
+      },
+      "phone": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 29,
+        "samples": [
+          "(171) 555-2222",
+          "(100) 555-4822",
+          "(313) 555-5735"
+        ]
+      },
+      "fax": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 16,
+        "uniqueCount": 14,
+        "samples": [
+          "(313) 555-3349",
+          "(03) 444-6588",
+          "031-987 65 91"
+        ]
+      },
+      "homepage": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 24,
+        "uniqueCount": 6,
+        "samples": [
+          "#CAJUN.HTM#",
+          "Mayumi's (on the World Wide Web)#http://www.microsoft.com/accessdev/sampleapps/mayumi.htm#",
+          "Plutzer (on the World Wide Web)#http://www.microsoft.com/accessdev/sampleapps/plutzer.htm#"
+        ]
+      }
+    }
+  },
+  "territories": {
+    "rowCount": 53,
+    "columns": [
+      "territoryid",
+      "territorydescription",
+      "regionid"
+    ],
+    "colAnalysis": {
+      "territoryid": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 53,
+        "samples": [
+          "01581",
+          "01730",
+          "01833"
+        ]
+      },
+      "territorydescription": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 52,
+        "samples": [
+          "Westboro",
+          "Bedford",
+          "Georgetow"
+        ]
+      },
+      "regionid": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 4,
+        "samples": [
+          1,
+          1,
+          1
+        ]
+      }
+    }
+  },
+  "usstates": {
+    "rowCount": 51,
+    "columns": [
+      "stateid",
+      "statename",
+      "stateabbr",
+      "stateregion"
+    ],
+    "colAnalysis": {
+      "stateid": {
+        "types": [
+          "number"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 51,
+        "samples": [
+          1,
+          2,
+          3
+        ]
+      },
+      "statename": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 51,
+        "samples": [
+          "Alabama",
+          "Alaska",
+          "Arizona"
+        ]
+      },
+      "stateabbr": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 51,
+        "samples": [
+          "AL",
+          "AK",
+          "AZ"
+        ]
+      },
+      "stateregion": {
+        "types": [
+          "string"
+        ],
+        "nullCount": 0,
+        "uniqueCount": 5,
+        "samples": [
+          "south",
+          "north",
+          "west"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Northwind Enterprise BI Dashboard & Data Warehouse</title>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              500: '#0284c7',
+              600: '#0369a1',
+              700: '#075985',
+              800: '#0c4a6e',
+              900: '#082f49'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .tab-active { border-bottom: 2px solid #0284c7; color: #0284c7; font-weight: 600; }
+    .metric-card { transition: transform 0.2s, box-shadow 0.2s; }
+    .metric-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08); }
+    /* custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- TOP NAVBAR -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="bg-brand-600 text-white p-2 rounded-lg shadow-sm">
+          <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-slate-900 tracking-tight">Northwind Analytics Hub</h1>
+          <p class="text-xs text-slate-500">Business Intelligence & Database Engineering Suite</p>
+        </div>
+      </div>
+
+      <!-- Quick Status Badges -->
+      <div class="flex items-center space-x-3">
+        <div class="hidden md:flex items-center space-x-2 text-xs bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-full border border-emerald-200">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span class="font-medium">DB SQLite Conectada (100% Auditada)</span>
+        </div>
+        <button onclick="fetchAuditStatus()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 flex items-center space-x-1 transition">
+          <i data-lucide="shield-check" class="w-4 h-4 text-brand-600"></i>
+          <span>Auditar Datos</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- NAVIGATION TABS -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-8 text-sm overflow-x-auto">
+      <button onclick="switchTab('overview')" id="tab-overview" class="py-3 px-1 tab-active flex items-center space-x-2 whitespace-nowrap">
+        <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+        <span>Ventas & KPIs Globales</span>
+      </button>
+      <button onclick="switchTab('rfm')" id="tab-rfm" class="py-3 px-1 text-slate-500 hover:text-slate-800 flex items-center space-x-2 whitespace-nowrap">
+        <i data-lucide="users" class="w-4 h-4"></i>
+        <span>Segmentación RFM Clientes</span>
+      </button>
+      <button onclick="switchTab('products')" id="tab-products" class="py-3 px-1 text-slate-500 hover:text-slate-800 flex items-center space-x-2 whitespace-nowrap">
+        <i data-lucide="package" class="w-4 h-4"></i>
+        <span>Productos & Categorías</span>
+      </button>
+      <button onclick="switchTab('employees')" id="tab-employees" class="py-3 px-1 text-slate-500 hover:text-slate-800 flex items-center space-x-2 whitespace-nowrap">
+        <i data-lucide="briefcase" class="w-4 h-4"></i>
+        <span>Equipo de Ventas</span>
+      </button>
+      <button onclick="switchTab('logistics')" id="tab-logistics" class="py-3 px-1 text-slate-500 hover:text-slate-800 flex items-center space-x-2 whitespace-nowrap">
+        <i data-lucide="truck" class="w-4 h-4"></i>
+        <span>Logística & Shippers</span>
+      </button>
+      <button onclick="switchTab('audit')" id="tab-audit" class="py-3 px-1 text-slate-500 hover:text-slate-800 flex items-center space-x-2 whitespace-nowrap">
+        <i data-lucide="database" class="w-4 h-4"></i>
+        <span>Gobernanza & Auditoría SQL</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- FILTER TOOLBAR -->
+  <section class="bg-white border-b border-slate-200 py-3 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-wrap items-center gap-3">
+        <div class="flex items-center text-xs text-slate-500 font-medium mr-2">
+          <i data-lucide="filter" class="w-4 h-4 mr-1 text-slate-400"></i>
+          <span>Filtros Dinámicos:</span>
+        </div>
+
+        <!-- Year Filter -->
+        <select id="filter-year" onchange="applyFilters()" class="text-xs bg-slate-50 border border-slate-300 rounded-md px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-brand-500">
+          <option value="">Año: Todos</option>
+        </select>
+
+        <!-- Category Filter -->
+        <select id="filter-category" onchange="applyFilters()" class="text-xs bg-slate-50 border border-slate-300 rounded-md px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-brand-500">
+          <option value="">Categoría: Todas</option>
+        </select>
+
+        <!-- Employee Filter -->
+        <select id="filter-employee" onchange="applyFilters()" class="text-xs bg-slate-50 border border-slate-300 rounded-md px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-brand-500">
+          <option value="">Empleado: Todos</option>
+        </select>
+
+        <!-- Country Filter -->
+        <select id="filter-country" onchange="applyFilters()" class="text-xs bg-slate-50 border border-slate-300 rounded-md px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-brand-500">
+          <option value="">País Destino: Todos</option>
+        </select>
+
+        <!-- Reset Button -->
+        <button onclick="resetFilters()" class="text-xs text-brand-600 hover:text-brand-800 hover:underline px-2 py-1 font-medium ml-auto flex items-center gap-1">
+          <i data-lucide="rotate-ccw" class="w-3 h-3"></i>
+          <span>Restablecer Filtros</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full">
+
+    <!-- ==================== TAB 1: OVERVIEW ==================== -->
+    <div id="section-overview" class="space-y-6">
+      <!-- KPI CARDS -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+        <!-- Net Sales Card -->
+        <div class="metric-card bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+          <div class="flex items-center justify-between text-slate-500 text-xs mb-1">
+            <span>Ventas Netas</span>
+            <i data-lucide="dollar-sign" class="w-4 h-4 text-emerald-500"></i>
+          </div>
+          <div id="kpi-net-sales" class="text-xl font-bold text-slate-900">$0.00</div>
+          <p class="text-[10px] text-slate-400 mt-1">Σ(Unitprice * Qty * (1-Disc))</p>
+        </div>
+
+        <!-- Total Orders -->
+        <div class="metric-card bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+          <div class="flex items-center justify-between text-slate-500 text-xs mb-1">
+            <span>Pedidos Únicos</span>
+            <i data-lucide="shopping-bag" class="w-4 h-4 text-blue-500"></i>
+          </div>
+          <div id="kpi-orders" class="text-xl font-bold text-slate-900">0</div>
+          <p class="text-[10px] text-slate-400 mt-1">Cabeceras procesadas</p>
+        </div>
+
+        <!-- Active Customers -->
+        <div class="metric-card bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+          <div class="flex items-center justify-between text-slate-500 text-xs mb-1">
+            <span>Clientes Compradores</span>
+            <i data-lucide="users" class="w-4 h-4 text-indigo-500"></i>
+          </div>
+          <div id="kpi-customers" class="text-xl font-bold text-slate-900">0</div>
+          <p class="text-[10px] text-slate-400 mt-1">Cuentas con órdenes</p>
+        </div>
+
+        <!-- Units Sold -->
+        <div class="metric-card bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+          <div class="flex items-center justify-between text-slate-500 text-xs mb-1">
+            <span>Unidades Vendidas</span>
+            <i data-lucide="layers" class="w-4 h-4 text-amber-500"></i>
+          </div>
+          <div id="kpi-units" class="text-xl font-bold text-slate-900">0</div>
+          <p class="text-[10px] text-slate-400 mt-1">Artículos facturados</p>
+        </div>
+
+        <!-- AOV (Ticket Promedio) -->
+        <div class="metric-card bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+          <div class="flex items-center justify-between text-slate-500 text-xs mb-1">
+            <span>Ticket Promedio</span>
+            <i data-lucide="receipt" class="w-4 h-4 text-violet-500"></i>
+          </div>
+          <div id="kpi-aov" class="text-xl font-bold text-slate-900">$0.00</div>
+          <p class="text-[10px] text-slate-400 mt-1">Ventas / Total Pedidos</p>
+        </div>
+
+        <!-- Freight -->
+        <div class="metric-card bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+          <div class="flex items-center justify-between text-slate-500 text-xs mb-1">
+            <span>Costo Total Flete</span>
+            <i data-lucide="truck" class="w-4 h-4 text-rose-500"></i>
+          </div>
+          <div id="kpi-freight" class="text-xl font-bold text-slate-900">$0.00</div>
+          <p class="text-[10px] text-slate-400 mt-1">Gastos de envío logístico</p>
+        </div>
+      </div>
+
+      <!-- CHARTS ROW 1 -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Monthly Trend (2 cols) -->
+        <div class="lg:col-span-2 bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h2 class="text-sm font-bold text-slate-900">Evolución Histórica de Ventas Mensuales</h2>
+              <p class="text-xs text-slate-500">Ingresos netos por mes cronológico</p>
+            </div>
+            <span class="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-md font-mono">1996 - 1998</span>
+          </div>
+          <div class="h-72">
+            <canvas id="chart-monthly-sales"></canvas>
+          </div>
+        </div>
+
+        <!-- Category Doughnut (1 col) -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+          <div class="mb-4">
+            <h2 class="text-sm font-bold text-slate-900">Participación por Categoría</h2>
+            <p class="text-xs text-slate-500">Mix de facturación según catálogo</p>
+          </div>
+          <div class="h-72 flex items-center justify-center">
+            <canvas id="chart-category-pie"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHARTS ROW 2: GEOGRAPHIC & LOGISTICS SUMMARY -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Country Chart -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+          <div class="mb-4">
+            <h2 class="text-sm font-bold text-slate-900">Top 10 Países por Ingresos de Exportación</h2>
+            <p class="text-xs text-slate-500">Destino de pedidos facturados</p>
+          </div>
+          <div class="h-64">
+            <canvas id="chart-countries"></canvas>
+          </div>
+        </div>
+
+        <!-- Quick Top Products Table -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <h2 class="text-sm font-bold text-slate-900">Top 5 Productos Líderes</h2>
+              <button onclick="switchTab('products')" class="text-xs text-brand-600 hover:underline">Ver catálogo completo →</button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead>
+                  <tr class="text-slate-400 border-b border-slate-100">
+                    <th class="pb-2 font-medium">Producto</th>
+                    <th class="pb-2 font-medium">Categoría</th>
+                    <th class="pb-2 font-medium text-right">Uds.</th>
+                    <th class="pb-2 font-medium text-right">Venta Neta</th>
+                  </tr>
+                </thead>
+                <tbody id="quick-top-products-tbody" class="divide-y divide-slate-100">
+                  <tr><td colspan="4" class="py-4 text-center text-slate-400">Cargando datos...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 2: RFM CUSTOMER SEGMENTATION ==================== -->
+    <div id="section-rfm" class="space-y-6 hidden">
+      <!-- RFM Methodology Banner -->
+      <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <span class="text-xs uppercase font-bold tracking-wider text-brand-600 bg-brand-50 px-2.5 py-1 rounded-md">Modelo Analítico Avanzado</span>
+            <h2 class="text-lg font-bold text-slate-900 mt-2">Segmentación de Clientes RFM (Recency, Frequency, Monetary)</h2>
+            <p class="text-xs text-slate-600 mt-1 max-w-3xl leading-relaxed">
+              <strong>Supuestos del Modelo:</strong> Fecha de corte/snapshot definida el <strong>06 de Mayo de 1998</strong> (última orden registrada). 
+              Se computan los 3 vectores: <strong>Recency</strong> (días desde su última compra), <strong>Frequency</strong> (cantidad total de órdenes distintas) y 
+              <strong>Monetary</strong> (volumen neto facturado en USD). Se calculan los percentiles empíricos (Q1, Q2, Q3) sobre la cohorte activa para clasificar a cada cliente en una matriz estratégica de retención.
+            </p>
+          </div>
+          <div class="flex flex-col items-end shrink-0">
+            <span class="text-xs text-slate-400 font-mono">Snapshot Date: 1998-05-06</span>
+            <span class="text-xs text-slate-500 mt-1">91 Cuentas Auditadas</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Segment KPI Cards -->
+      <div id="rfm-segments-container" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-3">
+        <!-- Rendered via JS -->
+      </div>
+
+      <!-- RFM Distribution Charts -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+          <h3 class="text-sm font-bold text-slate-900 mb-2">Distribución de Clientes por Clúster</h3>
+          <p class="text-xs text-slate-500 mb-4">Proporción de clientes en cada segmento</p>
+          <div class="h-64 flex items-center justify-center">
+            <canvas id="chart-rfm-donut"></canvas>
+          </div>
+        </div>
+
+        <div class="lg:col-span-2 bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+          <h3 class="text-sm font-bold text-slate-900 mb-2">Ingresos Netos Totales por Clúster RFM</h3>
+          <p class="text-xs text-slate-500 mb-4">Aporte financiero de cada cohorte de clientes</p>
+          <div class="h-64">
+            <canvas id="chart-rfm-revenue"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- RFM Table -->
+      <div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+        <div class="p-4 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h3 class="text-sm font-bold text-slate-900">Directorio de Clientes con Scoring RFM</h3>
+            <p class="text-xs text-slate-500">Métricas individuales, scoring R-F-M (1 a 4) y asignación estratégica</p>
+          </div>
+          <input type="text" id="rfm-search" placeholder="Buscar cliente por empresa o país..." oninput="filterRfmTable()" class="text-xs border border-slate-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-brand-500 w-64">
+        </div>
+        <div class="overflow-x-auto max-h-96">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 sticky top-0 border-b border-slate-200 text-slate-600">
+              <tr>
+                <th class="py-2.5 px-3 font-semibold">ID</th>
+                <th class="py-2.5 px-3 font-semibold">Empresa</th>
+                <th class="py-2.5 px-3 font-semibold">País</th>
+                <th class="py-2.5 px-3 font-semibold text-right">Recencia (Días)</th>
+                <th class="py-2.5 px-3 font-semibold text-right">Frecuencia (Órd.)</th>
+                <th class="py-2.5 px-3 font-semibold text-right">Venta Total ($)</th>
+                <th class="py-2.5 px-3 font-semibold text-center">Score RFM</th>
+                <th class="py-2.5 px-3 font-semibold">Clúster Asignado</th>
+              </tr>
+            </thead>
+            <tbody id="rfm-table-body" class="divide-y divide-slate-100">
+              <tr><td colspan="8" class="py-6 text-center text-slate-400">Cargando análisis RFM...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 3: PRODUCTS & CATEGORIES ==================== -->
+    <div id="section-products" class="space-y-6 hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+          <h3 class="text-sm font-bold text-slate-900 mb-1">Top Productos por Facturación Neta</h3>
+          <p class="text-xs text-slate-500 mb-4">Rendimiento comercial de los artículos principales</p>
+          <div class="h-80">
+            <canvas id="chart-top-products-bar"></canvas>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+          <h3 class="text-sm font-bold text-slate-900 mb-1">Resumen de Inventario y Riesgo de Stock</h3>
+          <p class="text-xs text-slate-500 mb-4">Productos que requieren reorden inmediata</p>
+          <div id="inventory-alert-box" class="space-y-2.5 max-h-80 overflow-y-auto pr-1">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Full Products Table -->
+      <div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+        <div class="p-4 border-b border-slate-200 flex items-center justify-between">
+          <h3 class="text-sm font-bold text-slate-900">Detalle de Productos Vendidos</h3>
+          <span class="text-xs text-slate-500">Ordenado por facturación neta descendente</span>
+        </div>
+        <div class="overflow-x-auto max-h-96">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 sticky top-0 border-b border-slate-200 text-slate-600">
+              <tr>
+                <th class="py-2.5 px-3 font-semibold">ID</th>
+                <th class="py-2.5 px-3 font-semibold">Nombre del Producto</th>
+                <th class="py-2.5 px-3 font-semibold">Categoría</th>
+                <th class="py-2.5 px-3 font-semibold text-right">Precio Catálogo</th>
+                <th class="py-2.5 px-3 font-semibold text-right">Stock</th>
+                <th class="py-2.5 px-3 font-semibold text-right">En Orden</th>
+                <th class="py-2.5 px-3 font-semibold text-right">Punto Reorden</th>
+                <th class="py-2.5 px-3 font-semibold text-right">Uds Vendidas</th>
+                <th class="py-2.5 px-3 font-semibold text-right">Venta Neta ($)</th>
+              </tr>
+            </thead>
+            <tbody id="products-table-body" class="divide-y divide-slate-100">
+              <!-- JS Populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 4: EMPLOYEES ==================== -->
+    <div id="section-employees" class="space-y-6 hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+          <h3 class="text-sm font-bold text-slate-900 mb-1">Ventas Netas por Representante Comercial</h3>
+          <p class="text-xs text-slate-500 mb-4">Comparativa de ingresos generados por cada empleado</p>
+          <div class="h-80">
+            <canvas id="chart-employees-bar"></canvas>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+          <h3 class="text-sm font-bold text-slate-900 mb-1">Estructura Organizacional</h3>
+          <p class="text-xs text-slate-500 mb-4">Jerarquía de supervisión en Northwind</p>
+          <div id="org-hierarchy-box" class="space-y-3 text-xs">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+        <div class="p-4 border-b border-slate-200">
+          <h3 class="text-sm font-bold text-slate-900">Métricas Individuales de Productividad</h3>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 border-b border-slate-200 text-slate-600">
+              <tr>
+                <th class="py-2.5 px-3 font-semibold">ID</th>
+                <th class="py-2.5 px-3 font-semibold">Empleado</th>
+                <th class="py-2.5 px-3 font-semibold">Puesto / Cargo</th>
+                <th class="py-2.5 px-3 font-semibold">Reporta A</th>
+                <th class="py-2.5 px-3 font-semibold text-right">Pedidos Atendidos</th>
+                <th class="py-2.5 px-3 font-semibold text-right">Uds Facturadas</th>
+                <th class="py-2.5 px-3 font-semibold text-right">Ticket Promedio</th>
+                <th class="py-2.5 px-3 font-semibold text-right">Venta Neta Total ($)</th>
+              </tr>
+            </thead>
+            <tbody id="employees-table-body" class="divide-y divide-slate-100">
+              <!-- JS Populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 5: LOGISTICS & SHIPPERS ==================== -->
+    <div id="section-logistics" class="space-y-6 hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+          <h3 class="text-sm font-bold text-slate-900 mb-1">Volumen de Envíos por Transportista</h3>
+          <p class="text-xs text-slate-500 mb-4">Distribución de carga por empresa de logística</p>
+          <div class="h-64">
+            <canvas id="chart-logistics-volume"></canvas>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+          <h3 class="text-sm font-bold text-slate-900 mb-1">Lead Time Promedio de Despacho (Días)</h3>
+          <p class="text-xs text-slate-500 mb-4">Tiempo transcurrido entre orden y entrega física</p>
+          <div class="h-64">
+            <canvas id="chart-logistics-days"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+        <div class="p-4 border-b border-slate-200">
+          <h3 class="text-sm font-bold text-slate-900">Tabla de Desempeño Logístico (SLA & Freight)</h3>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 border-b border-slate-200 text-slate-600">
+              <tr>
+                <th class="py-2.5 px-3 font-semibold">ID</th>
+                <th class="py-2.5 px-3 font-semibold">Empresa Transportista</th>
+                <th class="py-2.5 px-3 font-semibold text-right">Envíos Totales</th>
+                <th class="py-2.5 px-3 font-semibold text-right">Flete Total Cobrado ($)</th>
+                <th class="py-2.5 px-3 font-semibold text-right">Flete Promedio / Pedido ($)</th>
+                <th class="py-2.5 px-3 font-semibold text-right">Tiempo Entrega Medio (Días)</th>
+              </tr>
+            </thead>
+            <tbody id="logistics-table-body" class="divide-y divide-slate-100">
+              <!-- JS Populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 6: AUDIT & GOVERNANCE ==================== -->
+    <div id="section-audit" class="space-y-6 hidden">
+      <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="p-2 rounded-lg bg-emerald-100 text-emerald-700">
+            <i data-lucide="check-circle-2" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h2 class="text-base font-bold text-slate-900">Auditoría Criptográfica y Reconciliación de Totales</h2>
+            <p class="text-xs text-slate-500">Comparación en tiempo real entre archivo original Excel vs Motor Relacional SQLite</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200">
+            <span class="text-xs text-slate-400">Total Ventas Netas Auditadas</span>
+            <div id="audit-net-sales" class="text-base font-bold text-slate-800 mt-1">$1,265,793.04</div>
+            <span class="text-[10px] text-emerald-600 font-medium">✓ Coincidencia Exacta (Diff: 0.0000)</span>
+          </div>
+
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200">
+            <span class="text-xs text-slate-400">Unidades Totales Auditadas</span>
+            <div id="audit-total-qty" class="text-base font-bold text-slate-800 mt-1">51,317</div>
+            <span class="text-[10px] text-emerald-600 font-medium">✓ Coincidencia Exacta (Diff: 0)</span>
+          </div>
+
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200">
+            <span class="text-xs text-slate-400">Flete Total Auditado</span>
+            <div id="audit-freight" class="text-base font-bold text-slate-800 mt-1">$64,942.69</div>
+            <span class="text-[10px] text-emerald-600 font-medium">✓ Coincidencia Exacta (Diff: 0.00)</span>
+          </div>
+
+          <div class="p-4 rounded-lg bg-slate-50 border border-slate-200">
+            <span class="text-xs text-slate-400">Violaciones de Foreign Key</span>
+            <div id="audit-fk" class="text-base font-bold text-emerald-600 mt-1">0 Violaciones</div>
+            <span class="text-[10px] text-emerald-600 font-medium">✓ Integridad Referencial 100%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Counts Table -->
+      <div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+        <div class="p-4 border-b border-slate-200">
+          <h3 class="text-sm font-bold text-slate-900">Reconciliación de Registros por Entidad (Row Count Match)</h3>
+        </div>
+        <div class="p-4 overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 border-b border-slate-200 text-slate-600">
+              <tr>
+                <th class="py-2.5 px-3 font-semibold">Tabla / Hoja Excel</th>
+                <th class="py-2.5 px-3 font-semibold text-right">Filas Excel Original</th>
+                <th class="py-2.5 px-3 font-semibold text-right">Registros en SQLite</th>
+                <th class="py-2.5 px-3 font-semibold text-center">Estado Integridad</th>
+              </tr>
+            </thead>
+            <tbody id="audit-counts-tbody" class="divide-y divide-slate-100">
+              <!-- Populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
+    <p>Proyecto Académico Northwind Analytics • Arquitectura Relacional SQLite / PostgreSQL • Node.js & BI Dashboard</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
